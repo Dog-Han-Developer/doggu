@@ -1,6 +1,5 @@
 package com.doghandeveloper.doggu.Dog.domain;
 
-import com.doghandeveloper.doggu.Account.domain.Sex;
 import lombok.Builder;
 
 import javax.persistence.*;
