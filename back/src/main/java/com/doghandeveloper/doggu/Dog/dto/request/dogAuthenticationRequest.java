@@ -20,6 +20,7 @@ public class dogAuthenticationRequest {
     private String ownerName;
 
     @Schema(description = "동물등록증에 등록된 반려견 등록번호", example = "999999999999999")
+    @Length(min = 15, max = 15, message = "등록번호는 15자로 입력해주세요.(국가번호 3자리 + 일련번호 12자리)")
     @NotNull
     @NotBlank
     private String registerNumber;
