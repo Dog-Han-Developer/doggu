@@ -2,6 +2,7 @@ package com.doghandeveloper.doggu.Account.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -18,4 +19,9 @@ public class EmailAuthRequest {
     @Length(max = 100, message = "이메일은 100자 이하로 입력해주세요.")
     @NotBlank
     private String email;
+
+    @Builder
+    public EmailAuthRequest(String email) {
+        this.email = email;
+    }
 }
