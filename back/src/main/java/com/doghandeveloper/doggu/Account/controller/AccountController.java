@@ -26,9 +26,9 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/email")
-    @Operation(summary = "인증번호 이메일 전송", description = "인증번호를 담은 이메일을 전송합니다.", responses = {
+    @Operation(summary = "이메일 중복체크 및 인증번호 이메일 전송", description = "이메일의 중복을 체크하고, 인증번호를 담은 이메일을 전송합니다.", responses = {
             @ApiResponse(responseCode = "200", description = "인증번호 이메일 전송 성공"),
-            @ApiResponse(responseCode = "400", description = "인증번호 이메일 전송 실패", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "400", description = "이메일 중복 혹은 인증번호 이메일 전송 실패", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<Void> emailAuthentication(@Valid @RequestBody EmailAuthRequest emailAuthRequest) {
