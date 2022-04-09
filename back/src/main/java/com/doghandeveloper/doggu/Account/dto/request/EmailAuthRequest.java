@@ -15,9 +15,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EmailAuthRequest {
     @Schema(description = "인증 번호 전송용 이메일", example = "abcd1234@naver.com")
-    @Email
+    @Email(message = "이메일 형식이 아닙니다.")
     @Length(max = 100, message = "이메일은 100자 이하로 입력해주세요.")
-    @NotBlank
+    @NotBlank(message = "이메일은 필수입니다.")
     private String email;
 
     @Builder
