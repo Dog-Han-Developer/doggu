@@ -28,7 +28,7 @@ const Login = () => {
     <main className="flex bg-brown-100 w-screen justify-center lg:px-10">
       <article className="flex w-5/6 h-screen items-center">
         <img
-          className="hidden xl:flex container h-5/6 rounded-l-lg"
+          className="hidden xl:flex container h-5/6 rounded-l-lg transform duration-300 ease-in-out"
           src="/images/doggu.jpg"
           alt="로그인페이지 안내 이미지"
         />

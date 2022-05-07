@@ -6,3 +6,4 @@ export { default as StandardInput } from '../components/input/standard-input';
 export { default as PasswordInput } from '../components/input/password-input';
 export { default as SignupInputButton } from '../components/input/signup-input-button';
 export { default as DogguAlert } from '../components/modal/doggu-alert';
+export {default as Switch} from '../components/toggle/switch'
