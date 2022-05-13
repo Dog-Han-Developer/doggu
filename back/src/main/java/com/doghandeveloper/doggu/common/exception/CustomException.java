@@ -1,4 +1,12 @@
 package com.doghandeveloper.doggu.common.exception;
 
-public class CustomException {
+import com.doghandeveloper.doggu.common.exception.dto.ErrorCode;
+
+public class CustomException extends RuntimeException{
+    private final ErrorCode errorCode;
+
+    public CustomException(ErrorCode errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
+    }
 }
