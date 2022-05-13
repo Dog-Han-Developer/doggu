@@ -1,0 +1,4 @@
+= 덕구 API 문서
+
+=== Account
+1. <<accounts/email.adoc#, 이메일 중복체크 및 인증번호 이메일 전송>>

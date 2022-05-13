@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   BorderButton,
   DogguAlert,
@@ -11,6 +12,7 @@ import inputValidator from '../utils/input-validator';
 
 const Login = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const validateLoginForm = (id, password) => {
     if (inputValidator.checkEmail(id) && inputValidator.checkPassword(password)) {
@@ -22,6 +24,10 @@ const Login = () => {
 
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
+  };
+
+  const goToSignUp = () => {
+    navigate('/signup');
   };
 
   return (
@@ -52,7 +58,7 @@ const Login = () => {
             <footer className="py-5">
               <div className="h-0.5 bg-brown-800/50" />
               <SubTitle title="아직 회원이 아니멍?🐶" />
-              <BorderButton title="회원가입하기" />
+              <BorderButton title="회원가입하기" onClick={goToSignUp} />
             </footer>
           </div>
         </section>
