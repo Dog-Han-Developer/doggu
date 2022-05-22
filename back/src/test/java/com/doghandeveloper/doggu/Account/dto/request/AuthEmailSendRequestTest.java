@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class EmailAuthRequestTest {
+class AuthEmailSendRequestTest {
 
     private Validator validator;
 
@@ -23,11 +23,12 @@ class EmailAuthRequestTest {
 
     @Test
     @DisplayName("올바른 이메일로 인증 요청을 보낸다.")
-    void emailAuthRequestWithCorrectEmail() {
-        String email = "abcd1234@gmail.com";
-        EmailAuthRequest emailAuthRequest = EmailAuthRequest.builder().email(email).build();
+    void withCorrectEmail() {
+        AuthEmailSendRequest emailAuthRequest = AuthEmailSendRequest.builder()
+            .email("abcd1234@gmail.com")
+            .build();
 
-        Set<ConstraintViolation<EmailAuthRequest>> validate = validator.validate(emailAuthRequest);
+        Set<ConstraintViolation<AuthEmailSendRequest>> validate = validator.validate(emailAuthRequest);
 
         List<String> messages = validate.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
@@ -35,12 +36,27 @@ class EmailAuthRequestTest {
     }
 
     @Test
-    @DisplayName("잘못된 형식의 이메일로 인증 요청을 보낼 수 없다.")
-    void emailAuthRequestWithWrongEmail() {
-        String email = " ";
-        EmailAuthRequest emailAuthRequest = EmailAuthRequest.builder().email(email).build();
+    @DisplayName("이메일은 필수다.")
+    void withBlank() {
+        AuthEmailSendRequest emailAuthRequest = AuthEmailSendRequest.builder()
+            .email(" ")
+            .build();
 
-        Set<ConstraintViolation<EmailAuthRequest>> validate = validator.validate(emailAuthRequest);
+        Set<ConstraintViolation<AuthEmailSendRequest>> validate = validator.validate(emailAuthRequest);
+
+        List<String> messages = validate.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+
+        Assertions.assertThat(messages).contains("이메일은 필수입니다.");
+    }
+
+    @Test
+    @DisplayName("잘못된 형식의 이메일로 인증 요청을 보낼 수 없다.")
+    void withWrongEmail() {
+        AuthEmailSendRequest emailAuthRequest = AuthEmailSendRequest.builder()
+            .email("abcd#dda.com")
+            .build();
+
+        Set<ConstraintViolation<AuthEmailSendRequest>> validate = validator.validate(emailAuthRequest);
 
         List<String> messages = validate.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
@@ -49,11 +65,12 @@ class EmailAuthRequestTest {
 
     @Test
     @DisplayName("너무 긴 이메일로 인증 요청을 보낼 수 없다.")
-    void emailAuthRequestWithTooLongEmail() {
-        String email = "abcdefghijklmnopqlstuvwxyzabcdefghijklmnopqlstuvwxyzabcdefghijklmnopqlstuvwxyzabcdefghijklmnopqlstuvwxyz@gmail.com";
-        EmailAuthRequest emailAuthRequest = EmailAuthRequest.builder().email(email).build();
+    void withTooLongEmail() {
+        AuthEmailSendRequest emailAuthRequest = AuthEmailSendRequest.builder()
+            .email("abcdefghijklmnopqlstuvwxyzabcdefghijklmnopqlstuvwxyzabcdefghijklmnopqlstuvwxyzabcdefghijklmnopqlstuvwxyz@gmail.com")
+            .build();
 
-        Set<ConstraintViolation<EmailAuthRequest>> validate = validator.validate(emailAuthRequest);
+        Set<ConstraintViolation<AuthEmailSendRequest>> validate = validator.validate(emailAuthRequest);
 
         List<String> messages = validate.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
