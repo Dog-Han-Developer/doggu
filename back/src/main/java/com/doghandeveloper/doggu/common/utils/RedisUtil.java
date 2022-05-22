@@ -17,4 +17,8 @@ public class RedisUtil {
         Duration expireDuration = Duration.ofSeconds(duration);
         valueOperations.set(key, value, expireDuration);
     }
+
+    public String getData(String key){
+        return stringRedisTemplate.opsForValue().get(key);
+    }
 }
