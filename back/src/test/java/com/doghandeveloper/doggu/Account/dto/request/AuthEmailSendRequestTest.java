@@ -60,7 +60,7 @@ class AuthEmailSendRequestTest {
 
         List<String> messages = validate.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
-        Assertions.assertThat(messages).contains("이메일 형식이 아닙니다.", "이메일은 필수입니다.");
+        Assertions.assertThat(messages).contains("이메일 형식이 아닙니다.");
     }
 
     @Test
