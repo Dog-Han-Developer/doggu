@@ -1,11 +1,14 @@
 package com.doghandeveloper.doggu.Dog.domain;
 
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Dog {
 
     @Id
@@ -38,8 +41,5 @@ public class Dog {
         this.updatedDate = updateDate;
     }
 
-    public Dog() {
-
-    }
 }
 
