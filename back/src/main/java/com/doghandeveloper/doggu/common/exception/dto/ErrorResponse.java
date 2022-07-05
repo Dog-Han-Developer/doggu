@@ -1,15 +1,15 @@
 package com.doghandeveloper.doggu.common.exception.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Getter
 public class ErrorResponse {
+
     private final String message;
     private final String code;
     private final List<CustomFieldError> errors;
@@ -31,16 +31,20 @@ public class ErrorResponse {
         return new ErrorResponse(errorCode, CustomFieldError.of(bindingResult));
     }
 
+    public static ErrorResponse of(ErrorCode errorCode, String message) {
+        return new ErrorResponse(errorCode, CustomFieldError.of(message));
+    }
+
     public static ErrorResponse of(ErrorCode errorCode) {
         return new ErrorResponse(errorCode);
     }
 
     @Getter
     public static class CustomFieldError {
+
         private final String field;
         private final Object value;
         private final String reason;
-
 
         private CustomFieldError(String field, Object value, String reason) {
             this.field = field;
@@ -51,16 +55,23 @@ public class ErrorResponse {
         public static List<CustomFieldError> of(BindingResult bindingResult) {
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
             return fieldErrors.stream()
-                    .map(CustomFieldError::of)
-                    .collect(Collectors.toList());
+                .map(CustomFieldError::of)
+                .collect(Collectors.toList());
         }
 
         public static CustomFieldError of(FieldError fieldError) {
             return new CustomFieldError(
-                    fieldError.getField(),
-                    fieldError.getRejectedValue(),
-                    fieldError.getDefaultMessage()
+                fieldError.getField(),
+                fieldError.getRejectedValue(),
+                fieldError.getDefaultMessage()
             );
+        }
+
+        public static List<CustomFieldError> of(String message) {
+            List<CustomFieldError> customFieldErrors = new ArrayList<>();
+
+            customFieldErrors.add(new CustomFieldError(null, null, message));
+            return customFieldErrors;
         }
     }
 }

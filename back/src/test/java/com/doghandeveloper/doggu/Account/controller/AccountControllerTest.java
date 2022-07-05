@@ -1,7 +1,8 @@
 package com.doghandeveloper.doggu.Account.controller;
 
 import com.doghandeveloper.doggu.Account.controller.docs.AccountDocumentation;
-import com.doghandeveloper.doggu.Account.dto.request.EmailAuthRequest;
+import com.doghandeveloper.doggu.Account.dto.request.AuthEmailSendRequest;
+import com.doghandeveloper.doggu.Account.dto.request.AuthEmailVerifyRequest;
 import com.doghandeveloper.doggu.Account.service.AccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -35,19 +36,36 @@ class AccountControllerTest {
 
     @Test
     @DisplayName("인증번호 이메일 발송 성공")
-    void emailAuthenticationSuccess() throws Exception {
-        EmailAuthRequest emailAuthRequest = EmailAuthRequest.builder()
-                .email("doggu@gmail.com")
-                .build();
+    void sendAuthenticationEmailSuccess() throws Exception {
+        AuthEmailSendRequest authEmailSendRequest = AuthEmailSendRequest.builder()
+            .email("doggu@gmail.com")
+            .build();
 
         mockMvc.perform(post("/accounts/email")
-                        .content(objectMapper.writeValueAsString(emailAuthRequest))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
-                )
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andDo(AccountDocumentation.emailAuthentication());
+                .content(objectMapper.writeValueAsString(authEmailSendRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+            )
+            .andExpect(status().isOk())
+            .andDo(print())
+            .andDo(AccountDocumentation.sendAuthenticationEmail());
     }
 
+    @Test
+    @DisplayName("이메일 인증번호 확인 성공")
+    void verifyAuthenticationCodeSuccess() throws Exception {
+        AuthEmailVerifyRequest authEmailVerifyRequest = AuthEmailVerifyRequest.builder()
+            .email("doggu@gmail.com")
+            .authenticationCode("2b0a8a4d-a27f-4d01-b031-2a003cc4c039")
+            .build();
+
+        mockMvc.perform(post("/accounts/email/verify")
+                .content(objectMapper.writeValueAsString(authEmailVerifyRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+            )
+            .andExpect(status().isOk())
+            .andDo(print())
+            .andDo(AccountDocumentation.verifyAuthenticationCode());
+    }
 }

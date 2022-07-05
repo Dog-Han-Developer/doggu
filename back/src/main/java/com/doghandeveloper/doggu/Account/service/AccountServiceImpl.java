@@ -6,6 +6,7 @@ import com.doghandeveloper.doggu.common.exception.AuthException;
 import com.doghandeveloper.doggu.common.exception.dto.ErrorCode;
 import com.doghandeveloper.doggu.common.utils.EmailSendUtil;
 import com.doghandeveloper.doggu.common.utils.RedisUtil;
+import java.security.InvalidParameterException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,13 @@ public class AccountServiceImpl implements AccountService {
     private String createCode() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
+    }
+
+    @Override
+    public void verifyAuthenticationCode(String email, String authenticationCode) {
+        String savedAuthenticationCode = redisUtil.getData(email);
+        if(!authenticationCode.equals(savedAuthenticationCode)){
+            throw new InvalidParameterException();
+        }
     }
 }
