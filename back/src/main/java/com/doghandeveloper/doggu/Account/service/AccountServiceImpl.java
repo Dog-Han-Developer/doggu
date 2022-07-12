@@ -43,4 +43,11 @@ public class AccountServiceImpl implements AccountService {
             throw new InvalidParameterException();
         }
     }
+
+    @Override
+    public void verifyDuplicateUsername(String username) {
+        if(accountRepository.existsByUsername(username)){
+            throw new AuthException(ErrorCode.DUPLICATED_EMAIL);
+        }
+    }
 }
