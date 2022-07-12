@@ -1,0 +1,27 @@
+= 이메일 인증번호 확인
+
+== Errors
+=== 400 Bad Request
+- 잘못된 요청으로 인한 이메일 인증번호 확인 실패
+
+----
+{
+  "message" : "에러 메시지",
+  "code" : "에러 코드",
+  "errors" : [
+    {
+    "field" : "에러가 발생한 변수명",
+    "value" : "에러가 발생한 변수의 값",
+    "reason" : "에러 발생 이유"
+    },
+    ...
+  ]
+}
+----
+
+=== 500 Internal Server Error
+- 서버 오류
+
+== Success
+
+operation::accounts/email/verify[snippets='curl-request,request-fields,request-body,http-request,http-response']
