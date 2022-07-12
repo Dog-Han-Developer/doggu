@@ -66,8 +66,6 @@ class AccountServiceImplTest {
 
         when(redisUtil.getData(email)).thenReturn(authenticationCode);
 
-        accountService.verifyAuthenticationCode(email, authenticationCode);
-
         assertDoesNotThrow(() -> accountService.verifyAuthenticationCode(email, authenticationCode));
     }
 
@@ -94,5 +92,15 @@ class AccountServiceImplTest {
 
         assertThatThrownBy(() -> accountService.verifyAuthenticationCode(email, authenticationCode))
             .isInstanceOf(InvalidParameterException.class);
+    }
+
+    @Test
+    @DisplayName("사용자 이름이 중복되지 않았는지 확인한다.")
+    void verifyDuplicateUsername() {
+        String username = "doggu_love";
+
+        when(accountRepository.existsByUsername(username)).thenReturn(false);
+
+        assertDoesNotThrow(() -> accountService.verifyDuplicateUsername(username));
     }
 }
