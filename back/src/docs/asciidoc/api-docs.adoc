@@ -2,3 +2,5 @@
 
 === Account
 1. <<accounts/email.adoc#, 이메일 중복체크 및 인증번호 이메일 전송>>
+2. <<accounts/email/verify.adoc#, 이메일 인증번호 확인>>
+3. <<accounts/duplicate/{username}.adoc#, 사용자 이름 중복 체크>>
