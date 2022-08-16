@@ -45,7 +45,6 @@ class AccountControllerTest {
         mockMvc.perform(post("/accounts/email")
                 .content(objectMapper.writeValueAsString(authEmailSendRequest))
                 .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf-8")
             )
             .andExpect(status().isOk())
             .andDo(print())
@@ -63,7 +62,6 @@ class AccountControllerTest {
         mockMvc.perform(post("/accounts/email/verify")
                 .content(objectMapper.writeValueAsString(authEmailVerifyRequest))
                 .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf-8")
             )
             .andExpect(status().isOk())
             .andDo(print())
@@ -76,7 +74,6 @@ class AccountControllerTest {
         String username = "doggu_love";
         mockMvc.perform(RestDocumentationRequestBuilders.get("/accounts/duplicate/{username}", username)
                 .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf-8")
             )
             .andExpect(status().isOk())
             .andDo(print())
