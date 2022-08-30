@@ -1,5 +1,6 @@
 package com.doghandeveloper.doggu.Account.service;
 
+import com.doghandeveloper.doggu.Account.domain.Account;
 import com.doghandeveloper.doggu.Account.repository.AccountRepository;
 import com.doghandeveloper.doggu.common.config.EmailProperties;
 import com.doghandeveloper.doggu.common.exception.AuthException;
@@ -22,13 +23,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void sendEmail(String email) {
-        if (accountRepository.existsByEmail(email)) {
-            throw new AuthException(ErrorCode.DUPLICATED_EMAIL);
-        }
+        verifyDuplicateEmail(email);
         final String authCode = createCode();
         EmailProperties properties = EmailProperties.SIGNUP_EMAIL_AUTH;
         emailSendUtil.sendEmail(email, properties.getSubject(), String.format(properties.getTextFormat(), authCode));
         redisUtil.setDataExpire(email, authCode, properties.getValidTime());
+    }
+
+    private void verifyDuplicateEmail(String email){
+        if (accountRepository.existsByEmail(email)) {
+            throw new AuthException(ErrorCode.DUPLICATED_EMAIL);
+        }
     }
 
     private String createCode() {
@@ -47,7 +52,14 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void verifyDuplicateUsername(String username) {
         if(accountRepository.existsByUsername(username)){
-            throw new AuthException(ErrorCode.DUPLICATED_EMAIL);
+            throw new AuthException(ErrorCode.DUPLICATED_USERNAME);
         }
+    }
+
+    @Override
+    public void save(Account account) {
+        verifyDuplicateEmail(account.getEmail());
+        verifyDuplicateUsername(account.getUsername());
+        accountRepository.save(account);
     }
 }
