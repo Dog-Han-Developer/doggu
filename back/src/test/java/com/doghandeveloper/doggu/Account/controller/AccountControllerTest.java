@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.doghandeveloper.doggu.Account.controller.docs.AccountDocumentation;
 import com.doghandeveloper.doggu.Account.dto.request.AuthEmailSendRequest;
 import com.doghandeveloper.doggu.Account.dto.request.AuthEmailVerifyRequest;
+import com.doghandeveloper.doggu.Account.dto.request.SignupRequest;
 import com.doghandeveloper.doggu.Account.service.AccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -78,5 +79,23 @@ class AccountControllerTest {
             .andExpect(status().isOk())
             .andDo(print())
             .andDo(AccountDocumentation.verifyDuplicateUserName());
+    }
+    @Test
+    @DisplayName("회원 가입")
+    void signup() throws Exception {
+        SignupRequest signupRequest = SignupRequest.builder()
+            .email("doggu@gmail.com")
+            .username("doggu_love")
+            .password("@password134")
+            .owner("DOG_OWNER")
+            .build();
+
+        mockMvc.perform(post("/accounts")
+                .content(objectMapper.writeValueAsString(signupRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isOk())
+            .andDo(print())
+            .andDo(AccountDocumentation.signup());
     }
 }
