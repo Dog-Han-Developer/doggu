@@ -13,7 +13,7 @@ public class DogAuthenticationRequest {
 
     @Schema(description = "동물등록증에 등록된 소유자(견주) 이름", example = "이수민")
     @Length(min = 2, max = 100, message = "소유자(견주) 이름은 2 ~ 100자 사이로 입력해주세요.")
-    @Pattern(regexp = "[가-힣a-zA-Z]", message = "소유자(견주) 이름은 한글 or 영어로만 입력해주세요.")
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-zA-Z]*$", message = "소유자(견주) 이름은 한글 or 영어로만 입력해주세요.")
     @NotBlank
     private String ownerName;
 
