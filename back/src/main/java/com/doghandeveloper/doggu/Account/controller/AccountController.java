@@ -1,7 +1,10 @@
 package com.doghandeveloper.doggu.Account.controller;
 
+import com.doghandeveloper.doggu.Account.domain.Account;
+import com.doghandeveloper.doggu.Account.domain.Owner;
 import com.doghandeveloper.doggu.Account.dto.request.AuthEmailSendRequest;
 import com.doghandeveloper.doggu.Account.dto.request.AuthEmailVerifyRequest;
+import com.doghandeveloper.doggu.Account.dto.request.SignupRequest;
 import com.doghandeveloper.doggu.Account.service.AccountService;
 import com.doghandeveloper.doggu.common.exception.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,6 +67,23 @@ public class AccountController {
     ) {
         accountService.verifyDuplicateUsername(username);
         log.info("사용자 이름 중복 체크 성공: {}", username);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping
+    @Operation(summary = "회원 가입", description = "회원 정보를 받아 저장합니다.", responses = {
+        @ApiResponse(responseCode = "200", description = "회원 가입 성공"),
+        @ApiResponse(responseCode = "400", description = "회원 가입 실패", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+        @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    public ResponseEntity<Void> signup(@Valid @RequestBody SignupRequest signupRequest) {
+        Account account = Account.builder()
+            .email(signupRequest.getEmail())
+            .username(signupRequest.getUsername())
+            .password(signupRequest.getPassword())
+            .owner(Owner.valueOf(signupRequest.getOwner()))
+            .build();
+        accountService.save(account);
         return ResponseEntity.ok().build();
     }
 }
