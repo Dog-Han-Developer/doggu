@@ -34,4 +34,11 @@ public class GlobalExceptionHandler {
         log.error("InvalidParameterException: {}", ErrorCode.INVALID_INPUT_VALUE.getMessage());
         return ResponseEntity.badRequest().body(response);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    private ResponseEntity<ErrorResponse> handleIllegalArgumentException(){
+        ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE);
+        log.error("InvalidParameterException: {}", ErrorCode.INVALID_INPUT_VALUE.getMessage());
+        return ResponseEntity.badRequest().body(response);
+    }
 }

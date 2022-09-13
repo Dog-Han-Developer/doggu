@@ -7,6 +7,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.doghandeveloper.doggu.Account.domain.Account;
+import com.doghandeveloper.doggu.Account.domain.Owner;
 import com.doghandeveloper.doggu.Account.repository.AccountRepository;
 import com.doghandeveloper.doggu.common.exception.AuthException;
 import com.doghandeveloper.doggu.common.exception.dto.ErrorCode;
@@ -102,5 +104,56 @@ class AccountServiceImplTest {
         when(accountRepository.existsByUsername(username)).thenReturn(false);
 
         assertDoesNotThrow(() -> accountService.verifyDuplicateUsername(username));
+    }
+
+    @Test
+    @DisplayName("회원정보를 성공적으로 저장한다.")
+    void save() {
+        Account account = Account.builder()
+            .email("abcd1234@gmail.com")
+            .username("doggu_love")
+            .password("@password134")
+            .owner(Owner.DOG_OWNER)
+            .build();
+
+        accountService.save(account);
+
+        verify(accountRepository).save(account);
+    }
+
+    @Test
+    @DisplayName("중복된 이메일을 가진 회원정보는 저장할 수 없다.")
+    void saveWithDuplicateEmail() {
+        String email = "abcd1234@gmail.com";
+        Account account = Account.builder()
+            .email(email)
+            .username("doggu_love")
+            .password("@password134")
+            .owner(Owner.DOG_OWNER)
+            .build();
+
+        when(accountRepository.existsByEmail(email)).thenReturn(true);
+
+        assertThatThrownBy(() -> accountService.save(account))
+            .isInstanceOf(AuthException.class)
+            .hasMessageContainingAll(ErrorCode.DUPLICATED_EMAIL.getMessage());
+    }
+
+    @Test
+    @DisplayName("중복된 사용자 이름을 가진 회원정보는 저장할 수 없다.")
+    void saveWithDuplicateUsername() {
+        String username = "doggu_love";
+        Account account = Account.builder()
+            .email("abcd1234@gmail.com")
+            .username("doggu_love")
+            .password("@password134")
+            .owner(Owner.DOG_OWNER)
+            .build();
+
+        when(accountRepository.existsByUsername(username)).thenReturn(true);
+
+        assertThatThrownBy(() -> accountService.save(account))
+            .isInstanceOf(AuthException.class)
+            .hasMessageContainingAll(ErrorCode.DUPLICATED_USERNAME.getMessage());
     }
 }

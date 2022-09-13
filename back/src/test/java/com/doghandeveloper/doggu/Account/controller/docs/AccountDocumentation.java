@@ -47,4 +47,25 @@ public class AccountDocumentation {
             )
         );
     }
+
+    public static RestDocumentationResultHandler signup() {
+        return document("accounts",
+            ApiDocumentUtils.getDocumentRequest(),
+            ApiDocumentUtils.getDocumentResponse(),
+            requestFields(
+                fieldWithPath("email")
+                    .type(JsonFieldType.STRING)
+                    .description("이메일"),
+                fieldWithPath("username")
+                    .type(JsonFieldType.STRING)
+                    .description("사용자 이름"),
+                fieldWithPath("password")
+                    .type(JsonFieldType.STRING)
+                    .description("비밀번호"),
+                fieldWithPath("owner")
+                    .type(JsonFieldType.STRING)
+                    .description("견주 여부")
+            )
+        );
+    }
 }
