@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,6 +64,7 @@ public class AccountController {
     })
     public ResponseEntity<Void> verifyDuplicateUsername(
         @Pattern(regexp = "^[a-z0-9_\\.]*$", message = "사용자 이름은 영어(소문자), 숫자, _, .만 사용 가능합니다.")
+        @Length(min = 2, max = 16, message = "사용자 이름은 2자이상 16자이하로 입력해주세요.")
         @PathVariable String username
     ) {
         accountService.verifyDuplicateUsername(username);
