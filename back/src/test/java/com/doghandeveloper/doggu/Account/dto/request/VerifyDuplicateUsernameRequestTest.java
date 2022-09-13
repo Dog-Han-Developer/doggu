@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 public class VerifyDuplicateUsernameRequestTest {
 
-    private final static String PATTERN = "^[a-z0-9_\\.]{8,16}$";
+    private final static String PATTERN = "^[a-z0-9_\\.]{2,16}$";
 
     @Test
     @DisplayName("올바른 사용자 이름으로 중복 확인을 요청한다.")
